@@ -1,10 +1,11 @@
-Kafka Broker - localhost:9092
-Zookeeper - localhost:2181
-Postgres - localhost:5432
-Debezium Connector - localhost:8083
-Schema Registry - localhost:8081
-Debezium UI - localhost:8080
-Kafka Ui - localhost:8084 
+## Debezium and Postgres with Kafka extra inc. Kafka Ui 
+* Kafka Broker - localhost:9092
+* Zookeeper - localhost:2181
+* Postgres - localhost:5432
+* Debezium Connector - localhost:8083
+* Schema Registry - localhost:8081
+* Debezium UI - localhost:8080
+* Kafka Ui - localhost:8084 
 ````
 docker compose -f docker-compose.yml up -d
 ````
@@ -20,17 +21,17 @@ curl -X POST --location "http://localhost:8083/connectors" -H "Content-Type: app
 {
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-    "database.dbname": "db_name",
+    "database.dbname": "debezium",
     "database.history.kafka.bootstrap.servers": "kafka:9092",
-    "database.history.kafka.topic": "schema-changes.table_name",
+    "database.history.kafka.topic": "schema-changes.projects",
     "database.hostname": "postgres",
     "database.password": "postgres",
     "database.port": "5432",
     "database.server.name": "postgres",
     "database.user": "postgres",
-    "name": "table_name-db-connector",
+    "name": "debezium-connector",
     "plugin.name": "pgoutput",
-    "table.include.list": "public.table_name",
+    "table.include.list": "public.projects",
     "tasks.max": "1",
     "topic.creation.default.cleanup.policy": "delete",
     "topic.creation.default.partitions": "1",
@@ -39,8 +40,15 @@ curl -X POST --location "http://localhost:8083/connectors" -H "Content-Type: app
     "topic.creation.enable": "true",
     "topic.prefix": "postgres"
   },
-  "name": "table_name-db-connector",
-  "tasks": [],
-  "type": "source"
+  "name": "debezium-connector"
 }
+
 ````
+## Configs 
+### Kafka Ui Config 
+![kafka-ui.png](assets%2Fkafka-ui.png)
+### Create Debezium Connector
+![connector-create.png](assets%2Fconnector-create.png)
+![debezium-connector.png](assets%2Fdebezium-connector.png)
+## Debezium Changes Sync with Kafka
+![debezium-table.png](assets%2Fdebezium-table.png)
