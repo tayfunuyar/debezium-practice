@@ -11,14 +11,12 @@ docker compose -f docker-compose.yml up -d
 ````
 
 
-## Configure Postgres Connector
-
+## Configure Debezium Postgres Connector 
 ````
-curl -X POST --location "http://localhost:8083/connectors" -H "Content-Type: application/json" -H "Accept: application/json" -d @connector.json
-````
-
-````
-{
+  curl --location 'http://localhost:8083/connectors' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data '{
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "database.dbname": "debezium",
@@ -42,7 +40,7 @@ curl -X POST --location "http://localhost:8083/connectors" -H "Content-Type: app
   },
   "name": "debezium-connector"
 }
-
+' 
 ````
 ## Configs 
 ### Kafka Ui Config 
@@ -50,5 +48,5 @@ curl -X POST --location "http://localhost:8083/connectors" -H "Content-Type: app
 ### Create Debezium Connector
 ![connector-create.png](assets%2Fconnector-create.png)
 ![debezium-connector.png](assets%2Fdebezium-connector.png)
-## Debezium Changes Sync with Kafka
+### Debezium Changes Sync with Kafka
 ![debezium-table.png](assets%2Fdebezium-table.png)
